@@ -29,13 +29,15 @@ django.setup()
 # This allows to access all django settings even from the settings.py module.
 from django.conf import settings
 
-from PyInstaller.utils.hooks import collect_submodules
+from PyInstaller.utils.hooks import collect_submodules, is_module_satisfies
 
 
 hiddenimports = list(settings.INSTALLED_APPS) + \
-                 list(settings.TEMPLATE_CONTEXT_PROCESSORS) + \
-                 list(settings.TEMPLATE_LOADERS) + \
                  [settings.ROOT_URLCONF]
+
+if is_module_satisfies("django<=1.8"):
+    hiddenimports += list(settings.TEMPLATE_CONTEXT_PROCESSORS) + \
+                 list(settings.TEMPLATE_LOADERS)
 
 
 def _remove_class(class_name):
