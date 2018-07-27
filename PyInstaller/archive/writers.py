@@ -1,5 +1,5 @@
 #-----------------------------------------------------------------------------
-# Copyright (c) 2005-2017, PyInstaller Development Team.
+# Copyright (c) 2005-2018, PyInstaller Development Team.
 #
 # Distributed under the terms of the GNU General Public License with exception
 # for distributing bootloader.
@@ -29,7 +29,8 @@ import marshal
 import zlib
 
 from PyInstaller.building.utils import get_code_object, strip_paths_in_code
-from .readers import PYZ_TYPE_MODULE, PYZ_TYPE_PKG, PYZ_TYPE_DATA
+from PyInstaller.loader.pyimod02_archive import PYZ_TYPE_MODULE, PYZ_TYPE_PKG, \
+    PYZ_TYPE_DATA
 from ..compat import BYTECODE_MAGIC, is_py2
 
 

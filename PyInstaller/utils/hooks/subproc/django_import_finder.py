@@ -14,7 +14,7 @@ This module parses all Django dependencies from the module mysite.settings.py.
 NOTE: With newer version of Django this is most likely the part of PyInstaller
       that will be broken.
 
-Tested with Django 1.8.
+Tested with Django 2.0.
 """
 
 
@@ -86,9 +86,9 @@ def find_url_callbacks(urls_module):
         urlpatterns = urls_module.urlpatterns
         hid_list = [urls_module.__name__]
     for pattern in urlpatterns:
-        if isinstance(pattern, RegexURLPattern):
+        if isinstance(pattern, URLPattern):
             hid_list.append(pattern.callback.__module__)
-        elif isinstance(pattern, RegexURLResolver):
+        elif isinstance(pattern, URLResolver):
             hid_list += find_url_callbacks(pattern.urlconf_module)
     return hid_list
 
@@ -102,7 +102,7 @@ for app in settings.INSTALLED_APPS:
     hiddenimports.append(app_ctx_proc_module)
 
 
-from django.core.urlresolvers import RegexURLPattern, RegexURLResolver
+from django.urls import URLPattern, URLResolver
 
 
 # Construct base module name - without 'settings' suffix.

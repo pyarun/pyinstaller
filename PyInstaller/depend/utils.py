@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #-----------------------------------------------------------------------------
-# Copyright (c) 2005-2017, PyInstaller Development Team.
+# Copyright (c) 2005-2018, PyInstaller Development Team.
 #
 # Distributed under the terms of the GNU General Public License with exception
 # for distributing bootloader.
@@ -25,7 +25,7 @@ import zipfile
 from ..lib.modulegraph import util, modulegraph
 
 from .. import compat
-from ..compat import (is_darwin, is_unix, is_py2, is_py34, is_freebsd,
+from ..compat import (is_darwin, is_unix, is_py2, is_freebsd,
                       BYTECODE_MAGIC, PY3_BASE_MODULES,
                       exec_python_rc)
 from .dylib import include_library
@@ -91,7 +91,9 @@ def create_py3_base_library(libzip_filename, graph):
                             _write_long(fc, timestamp)
                             _write_long(fc, size)
                             marshal.dump(mod.code, fc)
-                            zf.writestr(new_name, fc.getvalue())
+                            # Use a ZipInfo to set timestamp for deterministic build
+                            info = zipfile.ZipInfo(new_name)
+                            zf.writestr(info, fc.getvalue())
 
     except Exception as e:
         logger.error('base_library.zip could not be created!')
@@ -366,7 +368,7 @@ def load_ldconfig_cache():
         # an informative line and might contain localized characters.
         # Example of first line with local cs_CZ.UTF-8:
         #$ /sbin/ldconfig -p
-        #V keši „/etc/ld.so.cache“ nalezeno knihoven: 2799
+        #V keši „/etc/ld.so.cache“ nalezeno knihoven: 2799
         #      libzvbi.so.0 (libc6,x86-64) => /lib64/libzvbi.so.0
         #      libzvbi-chains.so.0 (libc6,x86-64) => /lib64/libzvbi-chains.so.0
         text = compat.exec_command(ldconfig, '-p')
