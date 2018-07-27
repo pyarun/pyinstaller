@@ -1,6 +1,6 @@
 /*
  * ****************************************************************************
- * Copyright (c) 2013-2017, PyInstaller Development Team.
+ * Copyright (c) 2013-2018, PyInstaller Development Team.
  * Distributed under the terms of the GNU General Public License with exception
  * for distributing bootloader.
  *
@@ -107,6 +107,7 @@ int pyi_arch_extract2fs(ARCHIVE_STATUS *status, TOC *ptoc);
  * Helpers for embedders
  */
 int pyi_arch_get_pyversion(ARCHIVE_STATUS *status);
+extern int pyvers;
 
 /**
  * The gory detail level
